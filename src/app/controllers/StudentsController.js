@@ -1,16 +1,16 @@
 import * as Yup from 'yup';
-import User from '../models/User';
+import Students from '../models/Students';
 
-class UserController {
+class StudentsController {
   async store(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
       email: Yup.string()
         .email()
         .required(),
-      password: Yup.string()
-        .required()
-        .min(6),
+      age: Yup.number().required(),
+      weight: Yup.string().required(),
+      height: Yup.number().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -19,7 +19,7 @@ class UserController {
         .json({ error: 'An error ocurred while validating the data.' });
     }
 
-    const emailExists = await User.findOne({
+    const emailExists = await Students.findOne({
       where: { email: req.body.email },
     });
 
@@ -27,15 +27,14 @@ class UserController {
       return res.status(400).json({ error: 'Email alredy registered.' });
     }
 
-    const { id, name, email, admin } = await User.create(req.body);
+    const { id, name, email } = await Students.create(req.body);
 
     return res.json({
       id,
       name,
       email,
-      admin,
     });
   }
 }
 
-export default new UserController();
+export default new StudentsController();

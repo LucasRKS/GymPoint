@@ -1,7 +1,7 @@
 // Para rodar a migration -> yarn sequelize db:migrate
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('users', {
+    return queryInterface.createTable('students', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -17,14 +17,17 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
-      password_hash: {
+      age: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      weight: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      admin: {
-        type: Sequelize.BOOLEAN,
+      height: {
+        type: Sequelize.DECIMAL,
         allowNull: false,
-        defaultValue: false,
       },
       created_at: {
         type: Sequelize.DATE,

@@ -2,12 +2,12 @@
 import { Router } from 'express';
 
 // Controllers
-import User from './app/controllers/UserController';
+import Student from './app/controllers/StudentsController';
 
 const routes = new Router();
 
-routes.post('/users', (req, res) => {
-  return User.store(req, res);
+routes.post('/students', (req, res) => {
+  return Student.store(req, res);
 });
 
 export default routes;
