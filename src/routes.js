@@ -1,5 +1,5 @@
-//Apenas o roteamento do express
-import { Router } from 'express';
+// Apenas o roteamento do express
+import { Router } from "express";
 
 const routes = new Router();
 
