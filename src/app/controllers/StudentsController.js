@@ -70,6 +70,13 @@ class StudentsController {
     // Encontra o usuário baseando-se no id passado na url
     const student = await Students.findByPk(req.params.id);
 
+    // Verifica se existe o estudante com o ID informado
+    if (!student) {
+      return res.json({
+        error: `Unnable to find the student with the ID:${req.params.id}`,
+      });
+    }
+
     const { id, name, email, age, weight, height } = await student.update(
       req.body
     );
