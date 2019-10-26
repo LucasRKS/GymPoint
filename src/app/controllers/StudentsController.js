@@ -72,9 +72,7 @@ class StudentsController {
 
     // Verifica se existe o estudante com o ID informado
     if (!student) {
-      return res.json({
-        error: `Unnable to find the student with the ID:${req.params.id}`,
-      });
+      return res.json({ error: 'Unnable to find the student.' });
     }
 
     const { id, name, email, age, weight, height } = await student.update(
