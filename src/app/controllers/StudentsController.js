@@ -16,7 +16,7 @@ class StudentsController {
     if (!(await schema.isValid(req.body))) {
       return res
         .status(400)
-        .json({ error: 'An error ocurred while validating the data.' });
+        .json({ error: 'An error occurred while validating the data.' });
     }
 
     const emailExists = await Students.findOne({
@@ -53,10 +53,10 @@ class StudentsController {
     if (!(await schema.isValid(req.body))) {
       return res
         .status(400)
-        .json({ error: 'An error ocurred while validating the data.' });
+        .json({ error: 'An error occurred while validating the data.' });
     }
 
-    // Valida se o e-mail a ser editado já existe na aplicação
+    // Verifies if the new e-mail exists in the application
     if (req.body.email) {
       const emailExists = await Students.findOne({
         where: { email: req.body.email },
@@ -67,13 +67,8 @@ class StudentsController {
       }
     }
 
-    // Encontra o usuário baseando-se no id passado na url
+    // Find the user based on the ID passed through the url
     const student = await Students.findByPk(req.params.id);
-
-    // Verifica se existe o estudante com o ID informado
-    if (!student) {
-      return res.json({ error: 'Unnable to find the student.' });
-    }
 
     const { id, name, email, age, weight, height } = await student.update(
       req.body

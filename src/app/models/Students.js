@@ -3,7 +3,6 @@ import Sequelize, { Model } from 'sequelize';
 class Students extends Model {
   static init(sequelize) {
     // Super -> classe pai (Model)
-    // Ignorar colunas created, primary e foreign keys
     super.init(
       {
         name: Sequelize.STRING,

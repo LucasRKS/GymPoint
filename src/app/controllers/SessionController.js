@@ -9,7 +9,7 @@ class SessionController {
 
     const user = await User.findOne({ where: { email } });
 
-    // Verifica se o e-mail informado está cadastrado
+    // Verifies if the user exist based on the e-mail
     if (!user) {
       return res.status(401).json({ error: "Email doens't exists." });
     }
