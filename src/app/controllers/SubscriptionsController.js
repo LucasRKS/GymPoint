@@ -25,7 +25,7 @@ class SubscriptionsController {
   }
 
   async update(req, res) {
-    const schema = Yup.object({
+    const schema = Yup.object().shape({
       title: Yup.string(),
       duration: Yup.number(),
       price: Yup.number(),

@@ -42,7 +42,7 @@ class StudentsController {
   }
 
   async update(req, res) {
-    const schema = Yup.object({
+    const schema = Yup.object().shape({
       name: Yup.string(),
       email: Yup.string().email(),
       age: Yup.number(),
