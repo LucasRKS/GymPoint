@@ -24,5 +24,6 @@ routes.put('/students/:id', Student.update);
 routes.get('/subscriptions', Subscription.index);
 routes.post('/subscriptions', Subscription.store);
 routes.put('/subscriptions/:id', Subscription.update);
+routes.delete('/subscriptions/:id', Subscription.delete);
 
 export default routes;

@@ -3,7 +3,16 @@ import Subscriptions from '../models/Subscriptions';
 
 class SubscriptionsController {
   async index(req, res) {
-    return res.json();
+    const { page = 1, active = true } = req.query;
+
+    const subscritpions = await Subscriptions.findAll({
+      where: { active },
+      attributes: ['id', 'title', 'price', 'duration', 'createdAt'],
+      order: ['createdAt'],
+      offset: (page - 1) * 20,
+    });
+
+    return res.json(subscritpions);
   }
 
   async store(req, res) {
@@ -42,6 +51,16 @@ class SubscriptionsController {
     const { id, title, duration, price } = await subscription.update(req.body);
 
     return res.json({ id, title, duration, price });
+  }
+
+  async delete(req, res) {
+    const subscription = await Subscriptions.findByPk(req.params.id);
+
+    subscription.active = false;
+
+    await subscription.save();
+
+    return res.json(subscription);
   }
 }
 

@@ -7,6 +7,7 @@ class Subscriptions extends Model {
         title: Sequelize.STRING,
         duration: Sequelize.INTEGER,
         price: Sequelize.NUMERIC,
+        active: Sequelize.BOOLEAN,
       },
       {
         sequelize,
