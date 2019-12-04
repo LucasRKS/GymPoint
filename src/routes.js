@@ -31,5 +31,6 @@ routes.delete('/subscriptions/:id', Subscription.delete);
 // Enrollments
 routes.get('/enrollments', Enrollment.index);
 routes.post('/enrollments/:subscription_id/:student_id', Enrollment.store);
+routes.delete('/enrollments/:id', Enrollment.delete);
 
 export default routes;

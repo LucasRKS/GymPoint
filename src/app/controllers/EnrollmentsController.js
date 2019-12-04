@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { addMonths, parseISO } from 'date-fns';
+import { addMonths, parseISO, format } from 'date-fns';
 import Enrollment from '../models/Enrollments';
 import Subscription from '../models/Subscriptions';
 
@@ -58,7 +58,14 @@ class EnrollmentsController {
   }
 
   async delete(req, res) {
-    return res.json();
+    const newEndDate = await format(new Date(), 'yyyy-MM-dd');
+
+    const { id } = await Enrollment.update(
+      { end_date: newEndDate },
+      { where: { id: req.params.id } }
+    );
+
+    return res.json({ id, newEndDate });
   }
 }
 
