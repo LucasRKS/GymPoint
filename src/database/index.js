@@ -8,8 +8,9 @@ import databaseConfig from '../config/database';
 import User from '../app/models/User';
 import Students from '../app/models/Students';
 import Subscriptions from '../app/models/Subscriptions';
+import Enrollments from '../app/models/Enrollments';
 
-const models = [User, Students, Subscriptions];
+const models = [User, Students, Subscriptions, Enrollments];
 
 class Database {
   constructor() {

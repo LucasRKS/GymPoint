@@ -7,8 +7,8 @@ class SubscriptionsController {
 
     const subscritpions = await Subscriptions.findAll({
       where: { active },
-      attributes: ['id', 'title', 'price', 'duration', 'createdAt'],
-      order: ['createdAt'],
+      attributes: ['id', 'title', 'price', 'duration', 'created_at'],
+      order: ['created_at'],
       offset: (page - 1) * 20,
     });
 
