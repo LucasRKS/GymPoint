@@ -1,7 +1,10 @@
 import * as Yup from 'yup';
 import { addMonths, parseISO, format } from 'date-fns';
+import { pt } from 'date-fns/locale';
 import Enrollment from '../models/Enrollments';
 import Subscription from '../models/Subscriptions';
+import Student from '../models/Students';
+import Mail from '../../lib/Mail';
 
 class EnrollmentsController {
   async index(req, res) {
@@ -52,6 +55,26 @@ class EnrollmentsController {
       start_date,
       end_date,
       price: enrollmentPrice,
+    });
+
+    const student = await Student.findByPk(req.params.student_id);
+
+    const formatedEndDate = await format(
+      end_date,
+      "'dia' dd 'de' MMMM 'de' yyyy",
+      { locale: pt }
+    );
+
+    const formatedPrice = await price.toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    });
+
+    await Mail.sendMail({
+      to: `${student.name} <${student.email}>`,
+      subject: 'Novo plano na academia GymPoint',
+      text: `Você acaba de adiquirir o plano ${title}, no valor de R$ ${formatedPrice}.
+      \nO plano está ativo até ${formatedEndDate}.`,
     });
 
     return res.json({ id, title, price, start_date, end_date });
