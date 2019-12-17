@@ -1,9 +1,9 @@
 import * as Yup from 'yup';
-import Students from '../models/Students';
+import Student from '../models/Student';
 
 class StudentsController {
   async index(req, res) {
-    const students = await Students.findAll();
+    const students = await Student.findAll();
 
     return res.json(students);
   }
@@ -25,7 +25,7 @@ class StudentsController {
         .json({ error: 'An error occurred while validating the data.' });
     }
 
-    const emailExists = await Students.findOne({
+    const emailExists = await Student.findOne({
       where: { email: req.body.email },
     });
 
@@ -33,7 +33,7 @@ class StudentsController {
       return res.status(400).json({ error: 'Email alredy registered.' });
     }
 
-    const { id, name, email, age, weight, height } = await Students.create(
+    const { id, name, email, age, weight, height } = await Student.create(
       req.body
     );
 
@@ -64,7 +64,7 @@ class StudentsController {
 
     // Verifies if the new e-mail exists in the application
     if (req.body.email) {
-      const emailExists = await Students.findOne({
+      const emailExists = await Student.findOne({
         where: { email: req.body.email },
       });
 
@@ -74,7 +74,7 @@ class StudentsController {
     }
 
     // Find the user based on the ID passed through the url
-    const student = await Students.findByPk(req.params.id);
+    const student = await Student.findByPk(req.params.id);
 
     const { id, name, email, age, weight, height } = await student.update(
       req.body

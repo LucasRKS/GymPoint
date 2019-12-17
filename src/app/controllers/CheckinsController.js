@@ -1,11 +1,11 @@
-import Checkins from '../models/Checkins';
-import Student from '../models/Students';
+import Checkin from '../models/Checkin';
+import Student from '../models/Student';
 
 class CheckinsController {
   async index(req, res) {
     const { page = 1 } = req.query;
 
-    const checkins = await Checkins.findAll({
+    const checkins = await Checkin.findAll({
       where: { student_id: req.params.id },
       order: ['created_at'],
       limit: 20,

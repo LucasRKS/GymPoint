@@ -1,11 +1,11 @@
 import * as Yup from 'yup';
-import Subscriptions from '../models/Subscriptions';
+import Subscription from '../models/Subscription';
 
 class SubscriptionsController {
   async index(req, res) {
     const { page = 1, active = true } = req.query;
 
-    const subscritpions = await Subscriptions.findAll({
+    const subscritpions = await Subscription.findAll({
       where: { active },
       attributes: ['id', 'title', 'price', 'duration', 'created_at'],
       order: ['created_at'],
@@ -28,7 +28,7 @@ class SubscriptionsController {
         .json({ error: 'An error occurred while validating the data.' });
     }
 
-    const { id, title, duration, price } = await Subscriptions.create(req.body);
+    const { id, title, duration, price } = await Subscription.create(req.body);
 
     return res.json({ id, title, duration, price });
   }
@@ -46,7 +46,7 @@ class SubscriptionsController {
         .json({ error: 'An error occurred while validating the data.' });
     }
 
-    const subscription = await Subscriptions.findByPk(req.params.id);
+    const subscription = await Subscription.findByPk(req.params.id);
 
     const { id, title, duration, price } = await subscription.update(req.body);
 
@@ -54,7 +54,7 @@ class SubscriptionsController {
   }
 
   async delete(req, res) {
-    const subscription = await Subscriptions.findByPk(req.params.id);
+    const subscription = await Subscription.findByPk(req.params.id);
 
     subscription.active = false;
 

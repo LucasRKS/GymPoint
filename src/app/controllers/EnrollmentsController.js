@@ -1,9 +1,9 @@
 import * as Yup from 'yup';
 import { addMonths, parseISO, format } from 'date-fns';
 import { pt } from 'date-fns/locale';
-import Enrollment from '../models/Enrollments';
-import Subscription from '../models/Subscriptions';
-import Student from '../models/Students';
+import Enrollment from '../models/Enrollment';
+import Subscription from '../models/Subscription';
+import Student from '../models/Student';
 import Mail from '../../lib/Mail';
 
 class EnrollmentsController {
