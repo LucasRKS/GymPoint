@@ -13,6 +13,8 @@ class Subscriptions extends Model {
         sequelize,
       }
     );
+
+    return this;
   }
 }
 

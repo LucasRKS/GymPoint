@@ -5,11 +5,13 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
+        references: { model: 'students', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
       },
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,
-        primaryKey: true,
       },
       updated_at: {
         type: Sequelize.DATE,

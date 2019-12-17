@@ -1,14 +1,10 @@
 import Sequelize, { Model } from 'sequelize';
 
-class Enrollments extends Model {
+class Checkins extends Model {
   static init(sequelize) {
     super.init(
       {
         student_id: Sequelize.INTEGER,
-        subscription_id: Sequelize.INTEGER,
-        start_date: Sequelize.DATE,
-        end_date: Sequelize.DATE,
-        price: Sequelize.NUMERIC,
       },
       {
         sequelize,
@@ -17,6 +13,13 @@ class Enrollments extends Model {
 
     return this;
   }
+
+  static associate(models) {
+    this.belongsTo(models.Students, {
+      foreignKey: 'student_id',
+      as: 'student',
+    });
+  }
 }
 
-export default Enrollments;
+export default Checkins;

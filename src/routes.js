@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 // Controllers
 import Student from './app/controllers/StudentsController';
+import Checkins from './app/controllers/CheckinsController';
 import Session from './app/controllers/SessionController';
 import Subscription from './app/controllers/SubscriptionsController';
 import Enrollment from './app/controllers/EnrollmentsController';
@@ -21,6 +22,10 @@ routes.use(authMiddleware);
 routes.get('/students', Student.index);
 routes.post('/students', Student.store);
 routes.put('/students/:id', Student.update);
+
+// Checkins
+routes.get('/students/:id/checkins', Checkins.index);
+routes.post('/students/:id/checkins', Checkins.store);
 
 // Subscriptions
 routes.get('/subscriptions', Subscription.index);

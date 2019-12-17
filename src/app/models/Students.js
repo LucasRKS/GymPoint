@@ -15,6 +15,9 @@ class Students extends Model {
         sequelize,
       }
     );
+
+    return this;
   }
 }
+
 export default Students;
