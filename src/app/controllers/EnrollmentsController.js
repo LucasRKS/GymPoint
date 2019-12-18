@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 import { addMonths, parseISO, format } from 'date-fns';
 import { pt } from 'date-fns/locale';
+import { Op } from 'sequelize';
 import Enrollment from '../models/Enrollment';
 import Subscription from '../models/Subscription';
 import Student from '../models/Student';
@@ -40,11 +41,18 @@ class EnrollmentsController {
     const end_date = await addMonths(parseISO(start_date), duration);
 
     // Verifies if there is already a enrollement for the student within the period
-    // const studentHasEnrollment = await Enrollment.findOne({
-    //   where: {
-    //     student_id: req.params.student_id,
-    //   },
-    // });
+    const studentHasEnrollment = await Enrollment.findOne({
+      where: {
+        student_id: req.params.student_id,
+        end_date: { [Op.between]: [start_date, end_date] },
+      },
+    });
+
+    if (studentHasEnrollment !== null) {
+      return res.status(400).json({
+        error: 'Student alredy have one enrollment in the calculated period.',
+      });
+    }
 
     // Calculates the total price of the enrollment
     const enrollmentPrice = duration * price;
