@@ -65,27 +65,30 @@ class EnrollmentsController {
       price: enrollmentPrice,
     });
 
-    const student = await Student.findByPk(req.params.student_id);
+    const { name, email } = await Student.findByPk(req.params.student_id);
 
-    const formatedEndDate = await format(
-      end_date,
-      "'dia' dd 'de' MMMM 'de' yyyy",
-      { locale: pt }
-    );
+    const formatedEndDate = format(end_date, "'dia' dd 'de' MMMM 'de' yyyy", {
+      locale: pt,
+    });
 
-    const formatedPrice = await price.toLocaleString('pt-BR', {
+    const formatedPrice = price.toLocaleString('pt-BR', {
       style: 'currency',
       currency: 'BRL',
     });
 
     await Mail.sendMail({
-      to: `${student.name} <${student.email}>`,
+      to: `${name} <${email}>`,
       subject: 'Novo plano na academia GymPoint',
-      text: `Você acaba de adiquirir o plano ${title}, no valor de R$ ${formatedPrice}.
-      \nO plano está ativo até ${formatedEndDate}.`,
+      template: 'enrollmentInscription',
+      context: {
+        student: name,
+        subscription: title,
+        price: formatedPrice,
+        end_date: formatedEndDate,
+      },
     });
 
-    return res.json({ id, title, price, start_date, end_date });
+    return res.json({ id, title, formatedPrice, start_date, formatedEndDate });
   }
 
   async delete(req, res) {
