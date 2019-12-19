@@ -29,6 +29,7 @@ routes.get('/students/:id/checkins', Checkins.index);
 routes.post('/students/:id/checkins', Checkins.store);
 
 // Student Help Orders
+routes.get('/students/:id/help-orders', HelpOrderStudent.index);
 routes.post('/students/:id/help-orders', HelpOrderStudent.store);
 
 // Subscriptions

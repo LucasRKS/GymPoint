@@ -1,8 +1,15 @@
 import * as Yup from 'yup';
-import Student from '../models/Student';
 import HelpOrder from '../models/HelpOrder';
 
 class HelpOrdersStudentsController {
+  async index(req, res) {
+    const orders = await HelpOrder.findAll({
+      where: { student_id: req.params.id },
+    });
+
+    return res.json({ orders });
+  }
+
   async store(req, res) {
     const schema = await Yup.object().shape({
       question: Yup.string().required(),
