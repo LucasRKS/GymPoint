@@ -1,7 +1,9 @@
 import * as Yup from 'yup';
 import HelpOrder from '../models/HelpOrder';
 import Student from '../models/Student';
-import Mail from '../../lib/Mail';
+
+import HelpOrderMail from '../jobs/HelpOrderMail';
+import Queue from '../../lib/Queue';
 
 class HelpOrdersController {
   async index(req, res) {
@@ -35,11 +37,12 @@ class HelpOrdersController {
 
     const { name, email } = await Student.findByPk(student_id);
 
-    await Mail.sendMail({
-      to: `${name} <${email}>`,
-      subject: `Resposta ao chamado ${id}`,
-      template: 'helpOrderAnswer',
-      context: { student: name, id, question, answer },
+    await Queue.add(HelpOrderMail.key, {
+      name,
+      email,
+      id,
+      answer,
+      question,
     });
 
     return res.json({ id, name, question, answer });
