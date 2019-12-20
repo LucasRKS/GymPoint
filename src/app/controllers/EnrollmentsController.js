@@ -5,7 +5,9 @@ import { Op } from 'sequelize';
 import Enrollment from '../models/Enrollment';
 import Subscription from '../models/Subscription';
 import Student from '../models/Student';
-import Mail from '../../lib/Mail';
+
+import EnrollmentInscriptionMail from '../jobs/EnrollmentInscriptionMail';
+import Queue from '../../lib/Queue';
 
 class EnrollmentsController {
   async index(req, res) {
@@ -76,16 +78,12 @@ class EnrollmentsController {
       currency: 'BRL',
     });
 
-    await Mail.sendMail({
-      to: `${name} <${email}>`,
-      subject: 'Novo plano na academia GymPoint',
-      template: 'enrollmentInscription',
-      context: {
-        student: name,
-        subscription: title,
-        price: formatedPrice,
-        end_date: formatedEndDate,
-      },
+    await Queue.add(EnrollmentInscriptionMail.key, {
+      name,
+      email,
+      formatedEndDate,
+      formatedPrice,
+      title,
     });
 
     return res.json({ id, title, formatedPrice, start_date, formatedEndDate });
