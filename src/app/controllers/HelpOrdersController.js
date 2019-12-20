@@ -20,17 +20,15 @@ class HelpOrdersController {
       });
     }
 
-    const { answer_at, question, student_id } = await HelpOrder.findByPk(
-      req.params.id
-    );
+    const order = await HelpOrder.findByPk(req.params.id);
 
-    if (answer_at !== null) {
+    if (order.answer_at !== null) {
       return res
         .status(400)
         .json({ error: 'This order has alredy been answered.' });
     }
 
-    const { id } = await HelpOrder.update(
+    const { question, student_id, id } = await order.update(
       { answer, answer_at: new Date() },
       { where: { id: req.params.id } }
     );
@@ -40,9 +38,8 @@ class HelpOrdersController {
     await Mail.sendMail({
       to: `${name} <${email}>`,
       subject: `Resposta ao chamado ${id}`,
-      text: `Olá ${name}, a academia respodeu a pergunta: 
-      ${question}
-      ${answer}`,
+      template: 'helpOrderAnswer',
+      context: { student: name, id, question, answer },
     });
 
     return res.json({ id, name, question, answer });
